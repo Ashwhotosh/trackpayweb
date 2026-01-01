@@ -1,16 +1,26 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 
 export const Logo: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({ size = 'md' }) => {
+  const [error, setError] = useState(false);
+  
   const dimensions = {
     sm: 'h-8 w-auto',
-    md: 'w-64',
-    lg: 'w-80',
-    xl: 'w-[450px]'
+    md: 'w-48',
+    lg: 'w-64',
+    xl: 'w-80 md:w-[450px]'
   };
 
-  // Only show glow for larger variants to keep the nav clean
   const isLarge = size === 'xl' || size === 'lg';
+
+  // If the image fails to load, we show a stylized text-based logo
+  if (error) {
+    return (
+      <div className={`flex items-center gap-2 font-black tracking-tighter text-white ${size === 'sm' ? 'text-xl' : 'text-4xl'}`}>
+        <div className="bg-blue-600 rounded-lg w-8 h-8 flex items-center justify-center text-xs">TP</div>
+        {size !== 'sm' && <span>TrackPay</span>}
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex flex-col items-center justify-center transition-all duration-700">
@@ -20,17 +30,14 @@ export const Logo: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'xl' }> = ({ size = 'm
       )}
       
       <img 
-        src="logo.png" 
+        src="/logo.png" 
         alt="TrackPay Logo" 
-        className={`${dimensions[size]} relative z-10 ${isLarge ? 'drop-shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'drop-shadow-none'}`}
+        className={`${dimensions[size]} relative z-10 transition-opacity duration-500 ${isLarge ? 'drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]' : ''}`}
         style={{ 
           imageRendering: 'auto',
-          maxWidth: 'none' // Prevent tailwind max-width constraints in header
+          maxWidth: '100%'
         }}
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.src = 'https://placehold.co/600x600/0b0b1a/white?text=TP';
-        }}
+        onError={() => setError(true)}
       />
     </div>
   );
