@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Logo } from './components/Logo';
 import AiBuddyDemo from './components/AiBuddyDemo';
@@ -15,12 +14,13 @@ const App: React.FC = () => {
 
       {/* Header */}
       <nav className="relative z-50 flex items-center justify-between px-6 py-6 md:px-12">
-        <div className="flex items-center gap-3 group cursor-pointer">
+        <div className="flex items-center group cursor-pointer">
           <Logo size="sm" />
-          <span className="text-2xl font-black tracking-tighter text-white">TrackPay</span>
+          {/* We keep the text here as a backup in case the small logo is just an icon */}
+          <span className="ml-2 text-2xl font-black tracking-tighter text-white group-hover:text-blue-400 transition-colors">TrackPay</span>
         </div>
         <div className="hidden sm:flex items-center">
-          <span className="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5 backdrop-blur-sm">
+          <span className="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5 backdrop-blur-sm shadow-lg shadow-blue-500/10">
             Coming Soon
           </span>
         </div>
@@ -51,7 +51,7 @@ const App: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
                 </div>
-                <span className="text-white font-black text-4xl tracking-[0.1em] uppercase">Coming Soon</span>
+                <span className="text-white font-black text-4xl tracking-[0.1em] uppercase">Join Waitlist</span>
               </div>
               <p className="text-slate-500 text-sm font-bold tracking-widest uppercase">Redefining the way you spend.</p>
             </div>
