@@ -1,11 +1,21 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Initialize Gemini API client directly with the environment variable as per guidelines
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Ensure we have a safe way to access the AI client
+let aiInstance: GoogleGenAI | null = null;
+
+const getAi = () => {
+  if (!aiInstance) {
+    // The API key must be obtained from process.env.API_KEY
+    const apiKey = process.env.API_KEY || '';
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+};
 
 export const getFinancialAdvice = async (userPrompt: string) => {
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: userPrompt,
@@ -14,7 +24,7 @@ export const getFinancialAdvice = async (userPrompt: string) => {
         temperature: 0.7,
       },
     });
-    // Extracting text output from GenerateContentResponse using the .text property
+    
     return response.text;
   } catch (error) {
     console.error("Gemini Error:", error);
